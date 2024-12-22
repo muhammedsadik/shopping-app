@@ -1,12 +1,12 @@
 const userNameMsg = "User Name :"
-const mainManuMsg = "Wellcome to Shopping App\nSelect an action:\n1 - Product List\n2 - Show Cart\n3 - Buy Product\n4 - Add Account Balance\n5 - Show Balance\n\nİptal - Exist";
+const mainManuMsg = "Wellcome to Shopping App\nSelect an action:\n1 - Product List\n2 - Show Cart\n3 - Buy Product\n4 - Add Account Balance\n5 - Show Account Balance\n\nİptal - Exist";
 const choice = ["1", "2", "3", "4", "5"];
 const existing = "Exited The Application"
 const invalidEntry = "Invalid Entry";
-// const str = "";
-// const strSpace = " ";
+const balanceAddingMsg = "How much balance do you want to load?";
+const balanceAddedgMsg = "Congraculation!\n\nAccount Balance:";
 const cart = [];
-const accountBalance = [];
+let accountBalance = 0;
 const user = {};
 let value;
 
@@ -19,8 +19,7 @@ const products = [
   { id: 5, productName: "Oppo", price: 20000, stock: 30 }
 ];
 
-
-function isNewEntryValid(msg, ...keys) {
+function newEntry(msg, ...keys) {
   const entry = prompt(msg);
 
   const isvalue = keys.includes(entry);
@@ -29,7 +28,7 @@ function isNewEntryValid(msg, ...keys) {
     if (entry === null) {
       return false;
     }
-    return isNewEntryValid(msg, ...keys);
+    return newEntry(msg, ...keys);
   }
 
   return entry;
@@ -56,6 +55,44 @@ function addingUser() {
 
 
 
+
+
+function productList() {
+  const productList = products.map((p, index) => `${index + 1} - Name: ${p.productName}, Price: ${p.price}, Stock:${p.stock}`);
+  alert(productList.join("\n"));
+}
+
+
+
+
+
+function addBalance() {
+  let balance = prompt(balanceAddingMsg);
+
+  if (balance === null) {
+    return false;
+  }
+
+  balance = balance.trim();
+
+  if (!balance || isNaN(Number(balance))) {
+    alert(invalidEntry);
+    return addBalance();
+  }
+
+  accountBalance += Number(balance);
+
+  alert(`${balanceAddedgMsg} ${accountBalance}`);
+}
+
+function showBalance() {
+  alert(accountBalance);
+}
+
+
+
+
+
 function mainManu() {
 
   if (Object.keys(user).length === 0) {
@@ -65,17 +102,15 @@ function mainManu() {
     }
   }
 
-  value = isNewEntryValid(mainManuMsg, ...choice);
+  value = newEntry(mainManuMsg, ...choice);
 
   if (!value) {
     alert(existing);
     return;
   }
 
-
   if (value === choice[0]) {
-    const productList = products.map((p, index) => `${index + 1} - Name: ${p.productName}, Price: ${p.price}, Stock:${p.stock}`);
-    alert(productList.join("\n"));
+    productList();
   }
 
   if (value === choice[1]) {
@@ -87,11 +122,11 @@ function mainManu() {
   }
 
   if (value === choice[3]) {
-
+    addBalance();
   }
 
   if (value === choice[4]) {
-
+    showBalance();
   }
 
 
@@ -112,10 +147,10 @@ mainManu();
 // Bakiye Ekle:Bakiye ekleme yapılabilecek
 // Bakiyeyi Görüntüleme: Kullanıcı mevcut bakiyesini herhangi bir zamanda görüntüleyebilir.
 // Menü Seçenekleri: Ana menüde 5 seçenek olacak: ✅
-// Ürünleri listele  ✅
+// Ürünleri listele ✅
 // Sepeti göster
 // Ürün satın al
-// Bakiye Ekle
-// Bakiyeyi göster
+// Bakiye Ekle      ✅
+// Bakiyeyi göster  ✅
 // Çıkış yap
 // Geçersiz Seçenek Kontrolü: Kullanıcı geçerli olmayan bir seçenek girerse, hata mesajı gösterilecektir.
