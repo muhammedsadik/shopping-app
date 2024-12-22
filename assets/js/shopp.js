@@ -75,7 +75,7 @@ function addBalance() {
 
   balance = balance.trim();
 
-  if (!balance || isNaN(Number(balance))) {
+  if (!balance || isNaN(Number(balance)) || Number(balance) < 0) {
     alert(invalidEntry);
     return addBalance();
   }
